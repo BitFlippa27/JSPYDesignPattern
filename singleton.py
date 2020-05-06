@@ -1,20 +1,20 @@
 class DB:
-    singletonInstanz = None
+    singleton_instanz = None
     #def __new__(): erster Schritt bei der Instanziierung, Erzeugung der Instanz(Objekt)
     def __new__(cls, ip, dbName):     #statische Methode
     #Falls es keine Instanz dieser klasse gibt erzeuge eine und gib diese zurück
-        if DB.singletonInstanz == None:
-            DB.singletonInstanz = super().__new__(DB)  #hier wird die Instanz erzeugt
+        if DB.singleton_instanz == None:
+            DB.singleton_instanz = super().__new__(DB)  #hier wird die Instanz erzeugt
             cls.ip = ip
-            cls.dbName = dbName
+            cls.db_name = db_name
             DB.x = 27
-            print("Server: " + dbName + " with ip adress: " + ip + " connected!" )
+            print("Server: " + db_name + " with ip adress: " + ip + " connected!" )
             #print(cls)
             #Referenz auf erstes und einziges erzeugtes Objekt  
-            return DB.singletonInstanz
+            return DB.singleton_instanz
         else:
             print("Weitere Instanziierung nicht möglich. Singleton Klasse!!")
-            return DB.singletonInstanz
+            return DB.singleton_instanz
     
 
     #def _init__(): impliziter zweiter Schritt bei der Instanziierung, Initialisierung des Objekts 
