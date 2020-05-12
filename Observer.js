@@ -1,98 +1,79 @@
 class Subject{  //Subject
     constructor(name){
-        this.observers = [];
-        this.name = name;
+      this.observers = [];
+      this.name = name;
     }
 
     addObserver(fn){
     this.observers.push(fn); 
-    //console.log("Funktion" + fn + "hinzugefügt")
-
     }
 
     removeObserver(fn){
-        this.observers = this.observers.filter(function(item){
-            if(item !== fn)
-            return item;
-        });
-      
+      this.observers = this.observers.filter(function(item){
+        if(item !== fn)
+        return item;
+      });
     }
-
+    
     notify(data){
       if (this.observers.length > 0) {
         this.observers.forEach(observer => observer.update(data));
-        
       }
     }
 }
 
+
 class Observer{
-  update(){
-
-  }
-}
-
-class ConcreteObserver extends Observer{
-  
-  update(state){
-    this.output(state);
-  }
-
-  output(state){
-    console.log(state +"Hinzugefügt");
-  }
+  update(){}
 }
 
 
-
-class ConcreteSubject extends Subject{
+class State extends Subject{
   constructor(){
     super();
-    this.state = {};
+    this.state = [];
   }
 
-  update(data){
-    this.state = Object.assign(this.state, data);
+  addUser(user){
+    //this.state = Object.assign(this.state, user);
+    this.state.push(user);
     this.notify(this.state);
-    //console.log(this.state);
-   
   }
-
   getState(){
     return this.state;
   }
 }
 
 
-var users =[
-  {
-    id: 1,
-    name: "Jennifer"
-  },
-  {
-    id: 2,
-    name: "Jane"
-  },
-  {
-    id: 3,
-    name: "John"
+class UserOutput extends Observer{
+  
+  update(state){
+    console.log("User " + state[state.length -1].name +" Hinzugefügt");
   }
-];
+}
+
+
+class UserCount extends Observer{
+  
+  update(state){
+    for(let i = 0; i<state.length; i++){
+      var count = i;
+      count ++;
+    }
+    
+    return console.log("Anzahl der User " + count);
+    }
+}
+
+
+const state = new State();
+const userOutput = new UserOutput();
+const userCount = new UserCount();
+
+state.addObserver(userOutput);
+state.addObserver(userCount);
+state.addUser({name: "Hans"});
+state.addUser({name: "Franz"});
 
 
 
-
-
-const state = new ConcreteSubject();
-const render = new ConcreteObserver();
-
-
-
-state.update({users});
-//console.log({user});
-state.addObserver(render);
-render.output(state.getState());
-//console.log(state.getState())
-console.log(state);
-state.update();
-console.log(state);
