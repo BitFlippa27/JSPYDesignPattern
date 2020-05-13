@@ -34,10 +34,6 @@ class State(Subject):
         self.state.append(user)
         self.notify(self.state)
     
-    def remove_user(self, user):
-        self.state.remove(user)
-        self.notify(self.state)
-    
     def get_state():
         return self.state
 
@@ -45,7 +41,7 @@ class State(Subject):
 class UserOutput(Observer):
 
     def update(self, state):
-        print("User ", state[-1], " Hinzugefügt")
+        print("User ", state[-1]["name"], " Hinzugefügt")
 
 
 class UserCount(Observer):
@@ -53,15 +49,20 @@ class UserCount(Observer):
     def update(self, state):
        return print("Anzahl der User", len(state))
 
-
-
+class UserList(Observer):
+    def update(self, state):
+        for user in state:
+            print(user["name"])
 
 
 state = State()
-userOutput = UserOutput()
-userCount  = UserCount()
+user_output = UserOutput()
+user_count  = UserCount()
+user_list = UserList()
 
-#state.add_observer(userCount)
-state.add_user("Hans")
-state.add_user("Franz")
-state.remove_user("Franz")
+state.add_observer(user_output)
+state.add_observer(user_count)
+state.add_observer(user_list)
+state.add_user({"name" : "Alvin"})
+state.add_user({"name" : "Simon"})
+state.add_user({"name" : "Theodore"})

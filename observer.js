@@ -22,15 +22,6 @@ class Subject{  //Subject
       }else{
         console.log("Keine Observer registriert")
       }
-    /*
-    for(let i = 0;i < this.observers.length;i++){
-      this.observers[i].update(data);
-    }
-    if (this.observers.length > 0) {
-          this.observers.forEach(function(observer){
-          return observer.update(data)});
-  */
-      
     }
   }
 
@@ -76,18 +67,27 @@ class UserCount extends Observer{
     return console.log("Anzahl der User " + count);
     }
 }
+ class UserList extends Observer{
+
+  update(state){
+    for(let user of state)
+      console.log(user.name)
+  }
+ }
 
 
 const state = new State();
 const userOutput = new UserOutput();
 const userCount = new UserCount();
+const userList = new UserList();
 
 state.addObserver(userOutput);
 state.addObserver(userCount);
-state.addUser({name: "Hans"});
-state.addUser({name: "Franz"});
+state.addObserver(userList);
+state.addUser({name: "Alvin"});
+state.addUser({name: "Simon"});
 state.removeObserver(userCount);
-state.addUser({name: "Monika"});
+state.addUser({name: "Theodore"});
 
 
 
