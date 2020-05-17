@@ -30,39 +30,40 @@ class State(Subject):
         super().__init__()
         self.state = []
     
-    def add_user(self, user):
-        self.state.append(user)
+    def add_person(self, person):
+        self.state.append(person)
         self.notify(self.state)
     
     def get_state():
         return self.state
 
 
-class UserOutput(Observer):
+class PersonOutput(Observer):
 
     def update(self, state):
-        print("User ", state[-1]["name"], " Hinzugefügt")
+        print("Person ", state[-1]["name"], " Hinzugefügt")
 
 
-class UserCount(Observer):
+class PersonCount(Observer):
 
     def update(self, state):
-       return print("Anzahl der User", len(state))
+       return print("Anzahl der Personen: ", len(state))
 
-class UserList(Observer):
+class PersonList(Observer):
     def update(self, state):
-        for user in state:
-            print(user["name"])
+        print("Liste der Personen: ")
+        for person in state:
+            print(person["name"])
 
 
 state = State()
-user_output = UserOutput()
-user_count  = UserCount()
-user_list = UserList()
+person_output = PersonOutput()
+person_count  = PersonCount()
+person_list = PersonList()
 
-state.add_observer(user_output)
-state.add_observer(user_count)
-state.add_observer(user_list)
-state.add_user({"name" : "Alvin"})
-state.add_user({"name" : "Simon"})
-state.add_user({"name" : "Theodore"})
+state.add_observer(person_output)
+state.add_observer(person_count)
+state.add_observer(person_list)
+state.add_person({"name" : "Alvin"})
+state.add_person({"name" : "Simon"})
+
