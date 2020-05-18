@@ -37,9 +37,8 @@
       this.state = [];
     }
 
-    addUser(user){
-      //this.state = Object.assign(this.state, user);
-      this.state.push(user);
+    addPerson(person){
+      this.state.push(person);
       this.notify(this.state);
     }
     getState(){
@@ -48,7 +47,7 @@
   }
 
 
-  class UserOutput extends Observer{
+  class PersonOutput extends Observer{
     
     update(state){
       console.log("Person " + state[state.length -1].name +" Hinzugefügt");
@@ -56,33 +55,33 @@
   }
 
 
-  class UserCount extends Observer{
+  class PersonCount extends Observer{
     
     update(state){
       console.log("Anzahl der Personen: " + state.length)
       }
   }
-  class UserList extends Observer{
+  class PersonList extends Observer{
 
     update(state){
       console.log("Liste der Personen: ");
-      for(let user of state)
-        console.log(user.name)
+      for(let person of state)
+        console.log(person.name)
     }
   }
 
 const state = new State();
-const userOutput = new UserOutput();
-const userCount = new UserCount();
-const userList = new UserList();
+const personOutput = new PersonOutput();
+const personCount = new PersonCount();
+const personList = new PersonList();
 
-state.addObserver(userOutput);
-state.addObserver(userCount);
-state.addObserver(userList);
-state.addUser({name: "Alvin"});
-state.addUser({name: "Simon"});
-state.removeObserver(userCount);
-state.addUser({name: "Theodore"});
+state.addObserver(personOutput);
+state.addObserver(personCount);
+state.addObserver(personList);
+state.addPerson({name: "Alvin"});
+state.addPerson({name: "Simon"});
+state.removeObserver(personCount);
+state.addPerson({name: "Theodore"});
 
 
 

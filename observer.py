@@ -11,7 +11,7 @@ class Subject:
         self.observers.remove(observer)
 
        
-    def notify(self, data):
+    def notify(self, data): 
         if(len(self.observers) > 0):
             for observer in self.observers:
                 observer.update(data)
@@ -42,6 +42,7 @@ class PersonOutput(Observer):
 
     def update(self, state):
         print("Person ", state[-1]["name"], " Hinzugefügt")
+        print(self)
 
 
 class PersonCount(Observer):
