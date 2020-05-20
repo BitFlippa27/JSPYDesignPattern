@@ -1,28 +1,45 @@
 class Smartphone:
-    max_input_volt = 5
+    def __init__(self):
+        self.max_input_volt = 5
 
-    @classmethod
-    def charge(cls, input_volt):
-        if input_volt > Smartphone.max_input_volt:
+    def charge(self, input_volt):
+        print(input_volt, self.max_input_volt)
+        if input_volt > self.max_input_volt:
             print("Eingangsspannung: ",input_volt, "Volt!!!  Explosion!")
         else:
             print("Eingangsspannung: ", input_volt, "Volt Smartphone lädt...")
 
 
-class EUSocket:
-    output_volt = 230
+class DESocket:
+    def __init__(self):
+        self.output_volt = 230
 
 
 class USSocket:
-    output_volt = 120
+    def __init__(self):
+        self.output_volt = 120
 
 
-class EUAdapter:
-    input_volt = EUSocket.output_volt
-    output_volt = Smartphone.max_input_volt
+class Adapter:
+    def __init__(self, socket, smartphone): 
+        self.input_volt = socket.output_volt
 
-
+        if(self.input_volt == 120):
+            print("Amerikanische Steckdose erkannt: Übersetzung von 120V in Eingangsspannung des Smartphones")
+            self.output_volt = smartphone.max_input_volt
+            smartphone.charge(self.output_volt)
+        else:
+            print("Deutsche Steckdose erkannt: Übersetzung von 230V in Eingangsspannung des Smartphones")
+            self.output_volt = smartphone.max_input_volt
+            smartphone.charge(self.output_volt)
+    
 
 smartphone = Smartphone()
-smartphone.charge(EUSocket.output_volt)
-smartphone.charge(EUAdapter.output_volt)
+de_socket = DESocket()
+us_socket = USSocket()
+de_adapter = Adapter(de_socket, smartphone )
+us_adapter = Adapter(us_socket, smartphone)
+#smartphone.charge(euAdapter.output_volt)
+#smartphone.charge(usAdapter.output_volt)
+
+

@@ -24,13 +24,14 @@ class DB:
 
 
 db1 = DB("52.0.14.116", "NASA")
-print(db1)
+print(DB.singleton_instanz)
+'''print(db1)
 print(id(db1))
 db2 = DB("127.0.0.1","loopback")
 print(db2)
 print(id(db2))
 print(db1 is db2)
-
+'''
 
 
 

@@ -1,6 +1,6 @@
 class Smartphone{
   constructor(){
-    Smartphone.maxInputVolt = 5;
+    this.maxInputVolt = 5;
   }
 
   charge(inputVolt){
