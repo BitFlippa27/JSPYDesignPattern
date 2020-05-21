@@ -4,27 +4,45 @@ class Smartphone{
     }
   
     charge(inputVolt){
-      console.log(inputVolt)
-      if(inputVolt > this.maxInputVolt){
-        console.log("Eingangsspannung: " + inputVolt + "Volt!!! Explosion!");
-      }
-      else{
-        console.log("Eingangsspannung: " + inputVolt + " Volt, Smartphone lädt");
-      }
+      console.log("Eingangsspannung: "+ inputVolt +" Volt, Smartphone lädt...");
     }
-  }
+}
   
-  class DESocket{
-    constructor(){
-      this.outputVolt = 230
-    }
+class DESocket{
+  constructor(){
+    this.outputVolt = 230
   }
+}
   
-  class USSocket{
-    constructor(){
-        this.outputVolt = 120
-    }
+class USSocket{
+  constructor(){
+      this.outputVolt = 120
   }
+}
+
+class DEAdapter{
+  constructor(deSocket, smartphone){
+    this.inputVolt = deSocket.outputVolt;
+    this.convertedVolt = this.convert();
+  }
+
+  convert(){
+    this.outputVolt = smartphone.maxInputVolt;
+    return this.outputVolt;
+  }
+}
+
+class USAdapter{
+  constructor(usSocket, smartphone){
+    this.inputVolt = usSocket.outputVolt;
+  }
+
+  convert(){
+    this.outputVolt = smartphone.maxInputVolt;
+    this.convert();
+  }
+}
+  
   
   class Adapter{
     constructor(socket, smartphone  ){
@@ -44,11 +62,14 @@ class Smartphone{
     }
   }
   
-  let smartphone = new Smartphone();
-  let deSocket = new DESocket();
-  let usSocket = new USSocket();
-  let deAdapter = new Adapter(deSocket, smartphone);
-  let usAdapter = new Adapter(usSocket, smartphone);
+let smartphone = new Smartphone();
+let deSocket = new DESocket();
+let usSocket = new USSocket();
+let deAdapter = new DEAdapter(deSocket, smartphone);
+let convertedVolt = deAdapter.convertedVolt;
+smartphone.charge(convertedVolt);
+//let uniAdapter  = new Adapter(socket, smartphone);
+
 
 
 
