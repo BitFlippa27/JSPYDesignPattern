@@ -3,8 +3,16 @@ class Smartphone{
       this.maxInputVolt = 5;
     }
   
-    charge(inputVolt){
-      console.log("Eingangsspannung: "+ inputVolt +" Volt, Smartphone lädt...");
+    charge(convertedVolt){
+      if(convertedVolt == this.maxInputVolt){
+        console.log("Eingangsspannung: ", convertedVolt ," Volt, Smartphone lädt...");
+      }
+      else{
+        console.log("Falsche Eingangsspannung. Smartphone wird nicht geladen.");
+        
+      }
+      
+      
     }
 }
   
@@ -22,53 +30,73 @@ class USSocket{
 
 class DEAdapter{
   constructor(deSocket, smartphone){
-    this.inputVolt = deSocket.outputVolt;
-    this.convertedVolt = this.convert();
+    this.smartphone = smartphone;
+    this.deSocket = deSocket;
+    
+    
   }
 
   convert(){
-    this.outputVolt = smartphone.maxInputVolt;
-    return this.outputVolt;
+    this.inputVolt = this.deSocket.outputVolt;
+    if(this.inputVolt == 230)
+    {
+      this.convertedVolt = this.smartphone.maxInputVolt;
+      this.smartphone.charge(this.convertedVolt);
+    }
+    else{
+      console.log("Keine deutsche Steckdose")
+    }
   }
 }
 
 class USAdapter{
   constructor(usSocket, smartphone){
-    this.inputVolt = usSocket.outputVolt;
+    this.smartphone = smartphone;
+    this.usSocket = usSocket;
   }
 
   convert(){
-    this.outputVolt = smartphone.maxInputVolt;
-    this.convert();
+    this.inputVolt = this.usSocket.outputVolt;
+    if(this.inputVolt == 120)
+    {
+      this.convertedVolt = this.smartphone.maxInputVolt;
+      this.smartphone.charge(this.convertedVolt);
+    }else{
+      console.log("Keine amerikanische Steckdose")
+    }
+   
   }
 }
   
   
-  class Adapter{
-    constructor(socket, smartphone  ){
-        this.inputVolt = socket.outputVolt;
-
-        if(this.inputVolt == 120){
-            console.log("Amerikanische Steckdose erkannt: Übersetzung von 120V in Eingangsspannung des Smartphones");
-            this.outputVolt = smartphone.maxInputVolt;
-            smartphone.charge(this.outputVolt);
-        }
-        else{
-            console.log("Deutsche Steckdose erkannt: Übersetzung von 230V in Eingangsspannung des Smartphones");
-            this.outputVolt = smartphone.maxInputVolt;
-            smartphone.charge(this.outputVolt);
-        }
-       
+class UniAdapter extends DEAdapter{
+  constructor(socket, smartphone){
+      super(socket, smartphone);
+      this.inputVolt = socket.outputVolt;
+      if(this.inputVolt == 230){
+        console.log("Deutsche Steckdose erkannt: Übersetzung von 230V in Eingangsspannung des Smartphones");
+        this.convert();
+      }
+      else{
+          console.log("Amerikanische Steckdose erkannt: Übersetzung von 120V in Eingangsspannung des Smartphones");
+          this.convert();
+      }
     }
-  }
+    convert(){
+      this.convertedVolt = this.smartphone.maxInputVolt;
+      this.smartphone.charge(this.convertedVolt);
+    }
+}
   
-let smartphone = new Smartphone();
-let deSocket = new DESocket();
-let usSocket = new USSocket();
-let deAdapter = new DEAdapter(deSocket, smartphone);
-let convertedVolt = deAdapter.convertedVolt;
-smartphone.charge(convertedVolt);
-//let uniAdapter  = new Adapter(socket, smartphone);
+const smartphone = new Smartphone();
+const deSocket = new DESocket();
+const usSocket = new USSocket();
+
+//const deAdapter = new DEAdapter(deSocket, smartphone);
+//deAdapter.convert();
+let uniAdapter  = new UniAdapter(usSocket,smartphone);
+
+
 
 
 

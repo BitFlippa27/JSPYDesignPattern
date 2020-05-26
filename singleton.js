@@ -5,7 +5,7 @@ class DB {
       this.dbName = dbName;
       DB.singletonInstanz = this;  
       console.log(this)            // this  =  aktuelle Instanz(Objekt DB{})
-      console.log("Server: " + this.dbName + " with ip address: " + this.ip + " connected!" );  // DB.ip
+      console.log("Server: ", this.dbName, " with ip address: " , this.ip, " connected!" );  // DB.ip
       DB.x = 27;
       return DB.singletonInstanz              // expliziter Rückgabewert, globale Variable, erst erzeugte Instanz
     }
